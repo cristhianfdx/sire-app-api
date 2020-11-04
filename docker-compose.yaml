@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_DB=sire
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=drKxZy1dnVw3bH5PCM2P
+    ports:
+      - "5432:5432"
