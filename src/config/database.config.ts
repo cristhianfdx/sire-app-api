@@ -25,5 +25,9 @@ export default {
   cli: {
     migrationsDir: 'src/migrations',
     entitiesDir: 'src/entities',
-  }
+  },
+  extra: {
+    ssl: true,
+    rejectUnauthorized: false,
+  },
 };
