@@ -2,8 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Part } from './parts.entity';
 
 @Entity({ name: 'stock' })
 export class Stock {
@@ -18,4 +20,7 @@ export class Stock {
 
   @Column({ name: 'date_out' })
   dateOut: Date;
+
+  @OneToMany(() => Part, (part) => part.stock)
+  parts: Part[];
 }

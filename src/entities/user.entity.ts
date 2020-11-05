@@ -4,12 +4,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 
 import { Role } from './role.entity';
+import { Part } from './parts.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -32,6 +34,9 @@ export class User {
   @ManyToOne(() => Role, (role) => role.users)
   @JoinColumn({ name: 'role_id' })
   role: Role;
+
+  @OneToMany(() => Part, (part) => part.user)
+  parts: Part[];
 
   @BeforeInsert()
   async setNewPassword() {
