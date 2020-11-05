@@ -1,11 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+
+import { AbstractEntity } from './abstract.entity';
 import { Part } from './parts.entity';
 
 @Entity({ name: 'branch' })
-export class Branch {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Branch extends AbstractEntity {
   @Column({ name: 'description', nullable: false })
   description: string;
 

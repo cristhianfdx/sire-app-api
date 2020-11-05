@@ -1,4 +1,4 @@
-import { IsString, IsObject } from 'class-validator';
+import { IsString, MaxLength, MinLength, IsOptional } from 'class-validator';
 import { Role } from 'src/entities/role.entity';
 
 export class UserDTO {
@@ -9,11 +9,14 @@ export class UserDTO {
   lastName: string;
 
   @IsString()
+  @MaxLength(20)
   documentNumber: string;
 
   @IsString()
+  @MinLength(6)
+  @MaxLength(12)
   password: string;
 
-  @IsObject()
+  @IsOptional()
   role: Role;
 }

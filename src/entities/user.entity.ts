@@ -5,19 +5,16 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 
+import { AbstractEntity } from './abstract.entity';
 import { Role } from './role.entity';
 import { Part } from './parts.entity';
 
 @Entity({ name: 'users' })
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class User extends AbstractEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
@@ -27,13 +24,13 @@ export class User {
   @Column({ name: 'document_number', nullable: false, unique: true })
   documentNumber: string;
 
-  @Column({ name: 'password', nullable: false })
   @Exclude()
-  password: string;
+  @Column({ name: 'password' })
+  password?: string;
 
   @ManyToOne(() => Role, (role) => role.users)
   @JoinColumn({ name: 'role_id' })
-  role: Role;
+  role?: Role;
 
   @OneToMany(() => Part, (part) => part.user)
   parts: Part[];

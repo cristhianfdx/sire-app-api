@@ -1,20 +1,12 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
+import { AbstractEntity } from './abstract.entity';
 import { Branch } from './branch.entity';
 import { Stock } from './stock.entity';
 import { User } from './user.entity';
 
 @Entity({ name: 'parts' })
-export class Part {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Part extends AbstractEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 

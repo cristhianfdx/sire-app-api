@@ -13,7 +13,8 @@ export class UsersService {
 
   async create(userDTO: UserDTO): Promise<void> {
     try {
-      await this.userRepository.save(userDTO);
+      const user: User = this.userRepository.create(userDTO);
+      await user.save();
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

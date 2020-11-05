@@ -1,17 +1,9 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany } from 'typeorm';
+import { AbstractEntity } from './abstract.entity';
 import { Part } from './parts.entity';
 
 @Entity({ name: 'stock' })
-export class Stock {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Stock extends AbstractEntity {
   @Column({ name: 'quantity', nullable: false })
   quantity: string;
 

@@ -1,12 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
+import { AbstractEntity } from './abstract.entity';
 import { User } from './user.entity';
 
 @Entity({ name: 'role' })
-export class Role {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Role extends AbstractEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
