@@ -11,11 +11,7 @@ import * as dbConfig from './config/database.config';
 const typeOrmOptions = dbConfig.default as TypeOrmModuleOptions;
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(typeOrmOptions),
-    UsersModule,
-    AuthModule
-  ],
+  imports: [TypeOrmModule.forRoot(typeOrmOptions), UsersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
