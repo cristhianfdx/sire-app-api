@@ -16,9 +16,11 @@ export class AuthService {
 
   async login({ documentNumber, password }: LoginDTO): Promise<LoginResponse> {
     try {
-      const user = await this.userRepository.findOne({
-        where: { documentNumber },
-      });
+      const user = await this.userRepository
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.role', 'role')
+        .where('user.documentNumber = :documentNumber', { documentNumber })
+        .getOne();
 
       const isValid = await user.comparePassword(password);
       if (!isValid) {
