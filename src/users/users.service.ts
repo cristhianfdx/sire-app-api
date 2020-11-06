@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { classToPlain } from 'class-transformer';
@@ -6,6 +10,7 @@ import { classToPlain } from 'class-transformer';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/entities/role.entity';
 import { UserDTO } from 'src/dto/user.dto';
+import { UpdateUserDTO } from 'src/dto/update-user.dto';
 import { GetUserResponse } from 'src/response/get-user.response';
 import { GetRoleResponse } from 'src/response/get-role.response';
 
@@ -42,6 +47,36 @@ export class UsersService {
     try {
       const roles: Role[] = await this.roleRepository.find();
       return <GetRoleResponse[]>classToPlain(roles);
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async getById(id: number): Promise<User> {
+    const user: User = await this.userRepository.findOne({ id });
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return user;
+  }
+
+  async getOne(id: number): Promise<GetUserResponse> {
+    const user: User = await this.getById(id);
+    return <GetUserResponse>classToPlain(user);
+  }
+
+  async delete(id: number): Promise<void> {
+    const user: User = await this.getById(id);
+    await this.userRepository.remove(user);
+  }
+
+  async update(id: number, request: UpdateUserDTO): Promise<void> {
+    const user: User = await this.getById(id);
+
+    try {
+      request.password = await user.hashPassword(request.password);
+      await this.userRepository.save({ ...request, id: Number(id) });
     } catch (error) {
       throw new InternalServerErrorException();
     }
