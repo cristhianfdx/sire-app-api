@@ -14,12 +14,14 @@ export default {
   url: process.env.DATABASE_URL,
   entities: [entitiesPath],
   migrations: [migrationPath],
-  autoLoadingEntities: true,
-  synchronize: true,
+  synchronize: false,
   migrationsRun: process.env.TYPEORM_MIGRATIONS_RUN === 'true',
   seeds: [`src/modules/core/seeds/*.seed.ts`],
   cli: {
     migrationsDir: 'src/migrations',
     entitiesDir: 'src/entities',
+  },
+  extra: {
+    ssl: true,
   },
 };
