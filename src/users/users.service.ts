@@ -73,9 +73,12 @@ export class UsersService {
 
   async update(id: number, request: UpdateUserDTO): Promise<void> {
     const user: User = await this.getById(id);
+    let { password } = request;
 
     try {
-      request.password = await user.hashPassword(request.password);
+      if (password) {
+        password = await user.hashPassword(password);
+      }
       await this.userRepository.save({ ...request, id: Number(id) });
     } catch (error) {
       throw new InternalServerErrorException();
