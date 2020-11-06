@@ -20,7 +20,5 @@ export default {
   synchronize: Boolean(process.env.TYPEORM_AUTO_SYNCHRONIZE),
   logging: true,
   logger: 'file',
-  extra: {
-    ssl: true,
-  },
+  ssl: true,
 } as TypeOrmModuleOptions;
