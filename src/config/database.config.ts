@@ -10,12 +10,7 @@ const entitiesPath = `${baseDir}${process.env.TYPEORM_ENTITIES}`;
 const migrationPath = `${baseDir}${process.env.TYPEORM_MIGRATIONS}`;
 
 export default {
-  type: process.env.TYPEORM_CONNECTION,
-  host: process.env.DB_HOST,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: Number.parseInt(process.env.DB_PORT),
+  url: process.env.DATABASE_URL,
   entities: [entitiesPath],
   migrations: [migrationPath],
   autoLoadingEntities: true,
@@ -25,9 +20,5 @@ export default {
   cli: {
     migrationsDir: 'src/migrations',
     entitiesDir: 'src/entities',
-  },
-  extra: {
-    ssl: true,
-    rejectUnauthorized: false,
   },
 };
