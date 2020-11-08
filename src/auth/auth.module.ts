@@ -8,11 +8,13 @@ import { JwtStrategy } from './jwt-strategy';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
+import { UsersModule } from 'src/users/users.module';
 import { User } from 'src/entities/user.entity';
+import { Role } from 'src/entities/role.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Role]),
     JwtModule.register({
       secret: process.env.SECRET,
       signOptions: {
@@ -20,6 +22,7 @@ import { User } from 'src/entities/user.entity';
       },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    UsersModule,
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],

@@ -5,14 +5,14 @@ import { Part } from './parts.entity';
 @Entity({ name: 'stock' })
 export class Stock extends AbstractEntity {
   @Column({ name: 'quantity', nullable: false })
-  quantity: string;
+  quantity: number;
 
   @CreateDateColumn({ name: 'date_in' })
-  dateIn: Date;
+  dateIn?: Date;
 
-  @Column({ name: 'date_out' })
-  dateOut: Date;
+  @Column({ name: 'date_out', nullable: true })
+  dateOut?: Date;
 
   @OneToMany(() => Part, (part) => part.stock)
-  parts: Part[];
+  parts?: Part[];
 }
