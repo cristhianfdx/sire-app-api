@@ -26,7 +26,7 @@ export class UsersService {
       const user: User = this.userRepository.create(userDTO);
       await user.save();
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -38,15 +38,6 @@ export class UsersService {
         .getMany();
 
       return <GetUserResponse[]>classToPlain(users);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
-  }
-
-  async getRoles(): Promise<GetRoleResponse[]> {
-    try {
-      const roles: Role[] = await this.roleRepository.find();
-      return <GetRoleResponse[]>classToPlain(roles);
     } catch (error) {
       throw new InternalServerErrorException();
     }
@@ -71,15 +62,24 @@ export class UsersService {
     await this.userRepository.remove(user);
   }
 
-  async update(id: number, request: UpdateUserDTO): Promise<void> {
+  async update(id: number, dto: UpdateUserDTO): Promise<void> {
     const user: User = await this.getById(id);
-    let { password } = request;
+    let { password } = dto;
 
     try {
       if (password) {
         password = await user.hashPassword(password);
       }
-      await this.userRepository.save({ ...request, id: Number(id) });
+      await this.userRepository.save({ ...dto, id: Number(id) });
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async getRoles(): Promise<GetRoleResponse[]> {
+    try {
+      const roles: Role[] = await this.roleRepository.find();
+      return <GetRoleResponse[]>classToPlain(roles);
     } catch (error) {
       throw new InternalServerErrorException();
     }
