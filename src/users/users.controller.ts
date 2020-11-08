@@ -50,9 +50,9 @@ export class UsersController {
   @UseGuards(new JwtAuthGuard())
   async update(
     @Param('id') id: number,
-    @Body(ValidationPipe) request: UpdateUserDTO,
+    @Body(ValidationPipe) dto: UpdateUserDTO,
   ) {
-    await this.usersService.update(id, request);
+    await this.usersService.update(id, dto);
   }
 
   @Get('roles/all')

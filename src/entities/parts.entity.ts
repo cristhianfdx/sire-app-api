@@ -13,18 +13,18 @@ export class Part extends AbstractEntity {
   @Column({ name: 'description', nullable: false })
   description: string;
 
-  @Column({ name: 'image_url', nullable: false })
-  imageUrl: string;
+  @Column({ name: 'image_url', nullable: true })
+  imageUrl?: string;
 
   @ManyToOne(() => Branch, (branch) => branch.parts)
   @JoinColumn({ name: 'branch_id' })
-  branch: Branch;
+  branch?: Branch;
 
   @ManyToOne(() => Stock, (stock) => stock.parts)
   @JoinColumn({ name: 'stock_id' })
-  stock: Stock;
+  stock?: Stock;
 
   @ManyToOne(() => User, (user) => user.parts)
-  @JoinColumn({ name: 'role_id' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 }
