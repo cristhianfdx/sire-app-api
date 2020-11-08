@@ -5,17 +5,17 @@ import { Stock } from 'src/entities/stock.entity';
 
 export class UpdatePartDTO {
   @IsOptional()
-  name: string;
+  name?: string;
 
   @IsOptional()
-  description: string;
+  description?: string;
 
   @IsOptional()
-  imageUrl: string;
+  imageUrl?: string;
 
   @IsOptional()
-  branch: Branch;
+  branch?: Branch;
 
   @IsOptional()
-  stock: Stock;
+  stock?: Stock;
 }

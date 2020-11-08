@@ -12,5 +12,6 @@ import { Branch } from 'src/entities/branch.entity';
   imports: [TypeOrmModule.forFeature([Part, Branch])],
   providers: [PartsService, BranchService],
   controllers: [PartsController, BranchesController],
+  exports: [PartsService],
 })
 export class PartsModule {}

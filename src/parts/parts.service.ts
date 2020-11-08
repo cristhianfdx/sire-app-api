@@ -55,7 +55,7 @@ export class PartsService {
       .getOne();
 
     if (!part) {
-      throw new NotFoundException();
+      throw new NotFoundException('Part Not Found.');
     }
 
     return part;

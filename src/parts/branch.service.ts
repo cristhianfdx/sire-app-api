@@ -38,7 +38,7 @@ export class BranchService {
   async getById(id: number): Promise<Branch> {
     const branch: Branch = await this.branchRepository.findOne({ id });
     if (!branch) {
-      throw new NotFoundException();
+      throw new NotFoundException('Branch Not Found.');
     }
 
     return branch;
