@@ -18,13 +18,14 @@ import { PartsService } from './parts.service';
 import { PartDTO } from 'src/dto/part.dto';
 import { GetPartResponse } from 'src/response/get-part.response';
 import { UpdatePartDTO } from 'src/dto/update-part.dto';
+import { Auth } from 'src/auth/auth.decorator';
 
 @Controller('parts')
 export class PartsController {
   constructor(private partsService: PartsService) {}
 
   @Post()
-  @UseGuards(new JwtAuthGuard())
+  @Auth('admin')
   async create(
     @Req() request: Request,
     @Body(ValidationPipe) partDTO: PartDTO,
@@ -45,13 +46,13 @@ export class PartsController {
   }
 
   @Delete('/:id')
-  @UseGuards(new JwtAuthGuard())
+  @Auth('admin')
   async delete(@Param('id') id: number): Promise<void> {
     await this.partsService.delete(id);
   }
 
   @Patch('/:id')
-  @UseGuards(new JwtAuthGuard())
+  @Auth('admin')
   async update(
     @Param('id') id: number,
     @Body(ValidationPipe) request: UpdatePartDTO,
