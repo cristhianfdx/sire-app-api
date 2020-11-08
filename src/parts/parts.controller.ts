@@ -16,9 +16,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 import { PartsService } from './parts.service';
 import { PartDTO } from 'src/dto/part.dto';
-import { BranchDTO } from 'src/dto/branch.dto';
 import { GetPartResponse } from 'src/response/get-part.response';
-import { GetBranchResponse } from 'src/response/get-branch.response';
 import { UpdatePartDTO } from 'src/dto/update-part.dto';
 
 @Controller('parts')
@@ -59,25 +57,5 @@ export class PartsController {
     @Body(ValidationPipe) request: UpdatePartDTO,
   ) {
     await this.partsService.update(id, request);
-  }
-
-  @Post('branches')
-  @UseGuards(new JwtAuthGuard())
-  async createBranch(
-    @Body(ValidationPipe) branchDTO: BranchDTO,
-  ): Promise<void> {
-    await this.partsService.createBranch(branchDTO);
-  }
-
-  @Get('branches')
-  @UseGuards(new JwtAuthGuard())
-  async getAllBranches(): Promise<GetBranchResponse[]> {
-    return await this.partsService.getAllBranches();
-  }
-
-  @Delete('branches/:id')
-  @UseGuards(new JwtAuthGuard())
-  async deleteBranch(@Param('id') id: number): Promise<void> {
-    await this.partsService.deleteBranch(id);
   }
 }

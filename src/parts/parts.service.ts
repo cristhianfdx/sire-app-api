@@ -9,19 +9,15 @@ import { Request } from 'express';
 import { classToPlain } from 'class-transformer';
 
 import { Part } from 'src/entities/parts.entity';
-import { Branch } from 'src/entities/branch.entity';
 import { PartDTO } from 'src/dto/part.dto';
-import { BranchDTO } from 'src/dto/branch.dto';
 import { User } from 'src/entities/user.entity';
 import { GetPartResponse } from 'src/response/get-part.response';
-import { GetBranchResponse } from 'src/response/get-branch.response';
 import { UpdatePartDTO } from 'src/dto/update-part.dto';
 
 @Injectable()
 export class PartsService {
   constructor(
     @InjectRepository(Part) private partRepository: Repository<Part>,
-    @InjectRepository(Branch) private branchRepository: Repository<Branch>,
   ) {}
 
   async create(request: Request, partDTO: PartDTO): Promise<void> {
@@ -83,37 +79,5 @@ export class PartsService {
     } catch (error) {
       throw new InternalServerErrorException();
     }
-  }
-
-  async createBranch(branchDTO: BranchDTO): Promise<void> {
-    try {
-      const branch: Branch = this.branchRepository.create(branchDTO);
-      await branch.save();
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
-  }
-
-  async getAllBranches(): Promise<GetBranchResponse[]> {
-    try {
-      const branches: Branch[] = await this.branchRepository.find();
-      return <GetBranchResponse[]>classToPlain(branches);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
-  }
-
-  async getBranchById(id: number): Promise<Branch> {
-    const branch: Branch = await this.branchRepository.findOne({ id });
-    if (!branch) {
-      throw new NotFoundException();
-    }
-
-    return branch;
-  }
-
-  async deleteBranch(id: number): Promise<void> {
-    const branch: Branch = await this.getBranchById(id);
-    await this.branchRepository.remove(branch);
   }
 }
