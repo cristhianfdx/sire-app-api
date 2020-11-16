@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 import { AbstractEntity } from './abstract.entity';
-import { Branch } from './branch.entity';
+import { Brand } from './brand.entity';
 import { Stock } from './stock.entity';
 import { User } from './user.entity';
 
@@ -16,9 +16,9 @@ export class Part extends AbstractEntity {
   @Column({ name: 'image_url', nullable: true })
   imageUrl?: string;
 
-  @ManyToOne(() => Branch, (branch) => branch.parts)
-  @JoinColumn({ name: 'branch_id' })
-  branch?: Branch;
+  @ManyToOne(() => Brand, (brand) => brand.parts)
+  @JoinColumn({ name: 'brand_id' })
+  brand?: Brand;
 
   @ManyToOne(() => Stock, (stock) => stock.parts)
   @JoinColumn({ name: 'stock_id' })

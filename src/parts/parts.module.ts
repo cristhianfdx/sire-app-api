@@ -3,16 +3,16 @@ import { PartsService } from './parts.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UsersModule } from 'src/users/users.module';
-import { BranchesController } from './branch.controller';
+import { BrandsController } from './brand.controller';
 import { PartsController } from './parts.controller';
-import { BranchService } from './branch.service';
+import { BrandService } from './brand.service';
 import { Part } from 'src/entities/parts.entity';
-import { Branch } from 'src/entities/branch.entity';
+import { Brand } from 'src/entities/brand.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Part, Branch]), UsersModule],
-  providers: [PartsService, BranchService],
-  controllers: [PartsController, BranchesController],
+  imports: [TypeOrmModule.forFeature([Part, Brand]), UsersModule],
+  providers: [PartsService, BrandService],
+  controllers: [PartsController, BrandsController],
   exports: [PartsService],
 })
 export class PartsModule {}

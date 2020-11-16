@@ -1,6 +1,6 @@
 import { IsOptional } from 'class-validator';
 
-import { Branch } from 'src/entities/branch.entity';
+import { Brand } from 'src/entities/brand.entity';
 import { Stock } from 'src/entities/stock.entity';
 
 export class UpdatePartDTO {
@@ -14,7 +14,7 @@ export class UpdatePartDTO {
   imageUrl?: string;
 
   @IsOptional()
-  branch?: Branch;
+  brand?: Brand;
 
   @IsOptional()
   stock?: Stock;

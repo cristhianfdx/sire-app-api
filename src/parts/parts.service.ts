@@ -34,7 +34,7 @@ export class PartsService {
     try {
       const parts: Part[] = await this.partRepository
         .createQueryBuilder('part')
-        .leftJoinAndSelect('part.branch', 'branch')
+        .leftJoinAndSelect('part.brand', 'brand')
         .leftJoinAndSelect('part.stock', 'stock')
         .leftJoinAndSelect('part.user', 'user')
         .getMany();
@@ -48,7 +48,7 @@ export class PartsService {
   async getById(id: number): Promise<Part> {
     const part: Part = await this.partRepository
       .createQueryBuilder('part')
-      .leftJoinAndSelect('part.branch', 'branch')
+      .leftJoinAndSelect('part.brand', 'brand')
       .leftJoinAndSelect('part.stock', 'stock')
       .leftJoinAndSelect('part.user', 'user')
       .where('part.id = :id', { id })

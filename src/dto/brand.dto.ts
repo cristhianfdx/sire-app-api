@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class BranchDTO {
+export class BrandDTO {
   @IsString()
   description: string;
 }

@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-import { Branch } from 'src/entities/branch.entity';
+import { Brand } from 'src/entities/brand.entity';
 import { Stock } from 'src/entities/stock.entity';
 import { User } from 'src/entities/user.entity';
 
@@ -15,7 +15,7 @@ export class PartDTO {
   imageUrl: string;
 
   @IsOptional()
-  branch: Branch;
+  brand: Brand;
 
   @IsOptional()
   stock: Stock;

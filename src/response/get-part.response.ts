@@ -1,4 +1,4 @@
-import { GetBranchResponse } from './get-branch.response';
+import { GetBrandResponse } from './get-brand.response';
 import { GetStockResponse } from './get-stock.response';
 
 export interface GetPartResponse {
@@ -6,6 +6,6 @@ export interface GetPartResponse {
   name: string;
   description: string;
   imageUrl: string;
-  branch: GetBranchResponse;
+  brand: GetBrandResponse;
   stock?: GetStockResponse;
 }
