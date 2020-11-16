@@ -1,4 +1,4 @@
-import { IsObject, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 import { Branch } from 'src/entities/branch.entity';
 import { Stock } from 'src/entities/stock.entity';
@@ -14,7 +14,7 @@ export class PartDTO {
   @IsString()
   imageUrl: string;
 
-  @IsObject()
+  @IsOptional()
   branch: Branch;
 
   @IsOptional()

@@ -10,7 +10,7 @@ export class Part extends AbstractEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
-  @Column({ name: 'description', nullable: false })
+  @Column({ name: 'description', nullable: true })
   description: string;
 
   @Column({ name: 'image_url', nullable: true })
