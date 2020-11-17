@@ -7,6 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { classToPlain } from 'class-transformer';
+import { Request } from 'express';
 
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/entities/role.entity';
@@ -68,8 +69,12 @@ export class UsersService {
     return <GetUserResponse>classToPlain(user);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(request: Request, id: number): Promise<void> {
     const user: User = await this.getById(id);
+    const loggedUser = request.user as User;
+    if (loggedUser.id === user.id) {
+      throw new BadRequestException();
+    }
     await this.userRepository.remove(user);
   }
 

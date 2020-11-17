@@ -19,19 +19,19 @@ export class BrandsController {
   constructor(private brandService: BrandService) {}
 
   @Post()
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async create(@Body(ValidationPipe) brandDTO: BrandDTO): Promise<void> {
     await this.brandService.create(brandDTO);
   }
 
   @Get()
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async getAll(): Promise<GetBrandResponse[]> {
     return await this.brandService.getAll();
   }
 
   @Delete('/:id')
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async delete(@Param('id') id: number): Promise<void> {
     await this.brandService.delete(id);
   }

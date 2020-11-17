@@ -34,25 +34,25 @@ export class PartsController {
   }
 
   @Get()
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async getAll(): Promise<GetPartResponse[]> {
     return await this.partsService.getAll();
   }
 
   @Get('/:id')
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async getOne(@Param('id') id: number): Promise<GetPartResponse> {
     return await this.partsService.getOne(id);
   }
 
   @Delete('/:id')
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async delete(@Param('id') id: number): Promise<void> {
     await this.partsService.delete(id);
   }
 
   @Patch('/:id')
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async update(
     @Param('id') id: number,
     @Body(ValidationPipe) request: UpdatePartDTO,

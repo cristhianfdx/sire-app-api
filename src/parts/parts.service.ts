@@ -1,30 +1,42 @@
 import {
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
+  BadRequestException,
+  InternalServerErrorException,
 } from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
+import { classToPlain } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
-import { classToPlain } from 'class-transformer';
 
-import { Part } from 'src/entities/parts.entity';
-import { PartDTO } from 'src/dto/part.dto';
-import { User } from 'src/entities/user.entity';
 import { GetPartResponse } from 'src/response/get-part.response';
 import { UpdatePartDTO } from 'src/dto/update-part.dto';
+import { Stock } from 'src/entities/stock.entity';
+import { Part } from 'src/entities/parts.entity';
+import { User } from 'src/entities/user.entity';
+import { PartDTO } from 'src/dto/part.dto';
+import { StockDTO } from 'src/dto/stock.dto';
 
 @Injectable()
 export class PartsService {
   constructor(
     @InjectRepository(Part) private partRepository: Repository<Part>,
+    @InjectRepository(Stock) private stockRepository: Repository<Stock>,
   ) {}
 
   async create(request: Request, partDTO: PartDTO): Promise<void> {
     try {
       partDTO.user = request.user as User;
-      const part: Part = this.partRepository.create(partDTO);
-      await part.save();
+      const newPart: Part = this.partRepository.create(partDTO);
+      const part = await newPart.save();
+
+      const stockDTO: StockDTO = { partId: part.id };
+      const newStock: Stock = this.stockRepository.create(stockDTO);
+      newStock.quantity = 0;
+
+      const stock = await newStock.save();
+      await this.update(part.id, { stock: { id: stock.id } } as UpdatePartDTO);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -68,6 +80,9 @@ export class PartsService {
 
   async delete(id: number): Promise<void> {
     const part: Part = await this.getById(id);
+    if (part.stock.quantity > 0) {
+      throw new BadRequestException('Containing items in stock');
+    }
     await this.partRepository.remove(part);
   }
 

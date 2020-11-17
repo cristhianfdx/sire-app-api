@@ -3,5 +3,4 @@ export interface GetStockResponse {
   quantity: number;
   dateIn: Date;
   dateOut: Date;
-  location: string;
 }

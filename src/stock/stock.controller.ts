@@ -21,35 +21,35 @@ export class StockController {
   constructor(private stockService: StockService) {}
 
   @Post()
-  @UseGuards(new JwtAuthGuard())
-  async create(@Body(ValidationPipe) dto: StockDTO): Promise<void> {
-    await this.stockService.create(dto);
+  //@UseGuards(new JwtAuthGuard())
+  async create(@Body(ValidationPipe) dto: StockDTO): Promise<GetStockResponse> {
+    return await this.stockService.create(dto);
   }
 
   @Get()
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async getAll(): Promise<GetStockResponse[]> {
     return await this.stockService.getAll();
   }
 
   @Get('/:id')
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async getOne(@Param('id') id: number): Promise<GetStockResponse> {
     return await this.stockService.getOne(id);
   }
 
   @Delete('/:id')
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async delete(@Param('id') id: number): Promise<void> {
     await this.stockService.delete(id);
   }
 
   @Patch('/:id')
-  @UseGuards(new JwtAuthGuard())
+  //@UseGuards(new JwtAuthGuard())
   async update(
     @Param('id') id: number,
     @Body(ValidationPipe) request: UpdateStockDTO,
-  ) {
-    await this.stockService.update(id, request);
+  ): Promise<GetStockResponse> {
+    return await this.stockService.update(id, request);
   }
 }
