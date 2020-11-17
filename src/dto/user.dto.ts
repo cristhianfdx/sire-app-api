@@ -9,7 +9,7 @@ export class UserDTO {
   lastName: string;
 
   @IsString()
-  @MaxLength(20)
+  @MaxLength(14)
   documentNumber: string;
 
   @IsString()

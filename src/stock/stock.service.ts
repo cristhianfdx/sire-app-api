@@ -20,13 +20,15 @@ export class StockService {
     private partsService: PartsService,
   ) {}
 
-  async create(stockDTO: StockDTO): Promise<void> {
+  async create(stockDTO: StockDTO): Promise<GetStockResponse> {
     try {
       const newStock: Stock = this.stockRepository.create(stockDTO);
+      newStock.quantity = 1;
       const stock: Stock = await newStock.save();
       await this.partsService.update(stockDTO.partId, {
         stock,
       });
+      return <GetStockResponse>classToPlain(stock);
     } catch (error) {
       throw error;
     }
@@ -69,9 +71,13 @@ export class StockService {
     await this.stockRepository.remove(stock);
   }
 
-  async update(id: number, updateStockDTO: UpdateStockDTO): Promise<void> {
+  async update(
+    id: number,
+    updateStockDTO: UpdateStockDTO,
+  ): Promise<GetStockResponse> {
     await this.getById(id);
-    const { partId } = updateStockDTO;
+    updateStockDTO.quantity =
+      updateStockDTO.quantity > 0 ? updateStockDTO.quantity : 0;
 
     try {
       const stock: Stock = await this.stockRepository.save({
@@ -79,11 +85,13 @@ export class StockService {
         id: Number(id),
       });
 
+      const { partId } = updateStockDTO;
       if (partId) {
         await this.partsService.update(partId, {
           stock,
         });
       }
+      return <GetStockResponse>classToPlain(stock);
     } catch (error) {
       throw new InternalServerErrorException();
     }

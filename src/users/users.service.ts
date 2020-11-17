@@ -1,11 +1,13 @@
 import {
-  Injectable,
   InternalServerErrorException,
   NotFoundException,
+  BadRequestException,
+  Injectable,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { classToPlain } from 'class-transformer';
+import { Request } from 'express';
 
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/entities/role.entity';
@@ -13,6 +15,8 @@ import { UserDTO } from 'src/dto/user.dto';
 import { UpdateUserDTO } from 'src/dto/update-user.dto';
 import { GetUserResponse } from 'src/response/get-user.response';
 import { GetRoleResponse } from 'src/response/get-role.response';
+
+const DUPLICATE_KEY_ERROR = 'duplicate key value';
 
 @Injectable()
 export class UsersService {
@@ -26,6 +30,9 @@ export class UsersService {
       const user: User = this.userRepository.create(userDTO);
       await user.save();
     } catch (error) {
+      if (error.message.includes(DUPLICATE_KEY_ERROR)) {
+        throw new BadRequestException();
+      }
       throw new InternalServerErrorException();
     }
   }
@@ -62,21 +69,27 @@ export class UsersService {
     return <GetUserResponse>classToPlain(user);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(request: Request, id: number): Promise<void> {
     const user: User = await this.getById(id);
+    const loggedUser = request.user as User;
+    if (loggedUser.id === user.id) {
+      throw new BadRequestException();
+    }
     await this.userRepository.remove(user);
   }
 
   async update(id: number, dto: UpdateUserDTO): Promise<void> {
     const user: User = await this.getById(id);
-    let { password } = dto;
 
     try {
-      if (password) {
-        password = await user.hashPassword(password);
+      if (dto.password) {
+        dto.password = await user.hashPassword(dto.password);
       }
       await this.userRepository.save({ ...dto, id: Number(id) });
     } catch (error) {
+      if (error.message.includes(DUPLICATE_KEY_ERROR)) {
+        throw new BadRequestException();
+      }
       throw new InternalServerErrorException();
     }
   }

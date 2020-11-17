@@ -10,5 +10,6 @@ import { PartsModule } from 'src/parts/parts.module';
   imports: [TypeOrmModule.forFeature([Stock]), PartsModule],
   providers: [StockService],
   controllers: [StockController],
+  exports: [StockService],
 })
 export class StockModule {}
